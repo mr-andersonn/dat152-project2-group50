@@ -36,14 +36,12 @@ public class AuthorService {
 		
 		return author;
 	}
-	
-	// TODO public saveAuthor(Author author)
+
 	public Author saveAuthor(Author author){
 		return authorRepository.save(author);
 	}
 		
-	
-	// TODO public Author updateAuthor(Author author, int id)
+
 	public Author updateAuthor(Author author, int id) throws AuthorNotFoundException {
 
 		Author updated = findById(id);
@@ -53,13 +51,12 @@ public class AuthorService {
 
 		return authorRepository.save(updated);
 	}
-	
-	// TODO public List<Author> findAll()
+
 	public List<Author> findAll(){
 		return (List<Author>) authorRepository.findAll();
 	}
-	
-	// TODO public void deleteById(int id) throws AuthorNotFoundException 
+
+
 	public void deleteById(int id) throws AuthorNotFoundException{
 		Author author = findById(id);
 
@@ -75,8 +72,7 @@ public class AuthorService {
 
 		authorRepository.delete(author);
 	}
-	
-	// TODO public Set<Book> findBooksByAuthorId(int id)
+
 	public Set<Book> findBooksByAuthorId(int id) throws AuthorNotFoundException {
 		Author author = findById(id);
 		return author.getBooks();

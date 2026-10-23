@@ -41,7 +41,6 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-	// TODO - getAllBorrowOrders (@Mappings, URI=/orders, and method) + filter by expiry and paginate
     @GetMapping("/orders")
     public ResponseEntity<Object> getAllBorrowOrders(@RequestParam(value = "expiry", required = false) String expiry,
                                                      @RequestParam(value = "page", defaultValue = "0") int page,
@@ -63,7 +62,7 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 	
-	// TODO - getBorrowOrder (@Mappings, URI=/orders/{id}, and method)
+
     @GetMapping("/orders/{id}")
     public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id) throws OrderNotFoundException {
         Order order = orderService.findOrder(id);
@@ -76,14 +75,14 @@ public class OrderController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 	
-	// TODO - updateOrder (@Mappings, URI=/orders/{id}, and method)
+
     @PutMapping("/orders/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) throws OrderNotFoundException {
         Order updated = orderService.updateOrder(order, id);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 	
-	// TODO - deleteBookOrder (@Mappings, URI=/orders/{id}, and method)
+
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<Order> deleteBookOrder(@PathVariable Long id) throws OrderNotFoundException {
         orderService.deleteOrder(id);

@@ -47,8 +47,7 @@ public class BookService {
 		
 		return book;
 	}
-	
-	// TODO public Book updateBook(Book book, String isbn)
+
 	public Book updateBook(Book book, String isbn) throws BookNotFoundException, UpdateBookFailedException {
 
 		// findByISBN method has the checks, so try/catch is not necessary here.
@@ -65,24 +64,22 @@ public class BookService {
 
 	}
 
-	// TODO public List<Book> findAllPaginate(Pageable page)
 	public List<Book> findAllPaginate(Pageable page){
 		Page<Book> books = bookRepository.findAll(page);
 		return books.getContent();
 	}
-	
-	// TODO public Set<Author> findAuthorsOfBookByISBN(String isbn)
+
 	public Set<Author> findAuthorsOfBookByISBN(String isbn) throws BookNotFoundException {
 		Book book = findByISBN(isbn);
 		return book.getAuthors();
 	}
 	
-	// TODO public void deleteById(long id)
+
 	public void deleteById(long id){
 		bookRepository.deleteById(id);
 	}
 
-	// TODO public void deleteByISBN(String isbn)
+
 	public void deleteByISBN(String isbn) throws BookNotFoundException {
 
 		Book book = findByISBN(isbn);

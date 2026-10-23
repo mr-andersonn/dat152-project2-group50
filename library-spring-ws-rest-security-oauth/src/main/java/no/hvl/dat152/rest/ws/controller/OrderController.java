@@ -39,6 +39,60 @@ import no.hvl.dat152.rest.ws.service.OrderService;
 @RequestMapping("/elibrary/api/v1")
 public class OrderController {
 
-	// TODO authority annotation
-	
+    @Autowired
+    private OrderService orderService;
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/orders")
+    public ResponseEntity<Object> getAllBorrowOrders(@RequestParam(value = "expiry", required = false) String expiry,
+                                                     @RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value="size", defaultValue = "10") int size){
+        List<Order> orders;
+
+        if(expiry != null){
+            LocalDate date = LocalDate.parse(expiry);
+            orders = orderService.findByExpiryDate(date, PageRequest.of(page, size));
+        }
+        else{
+            orders = orderService.findAllOrders();
+        }
+
+        if(orders.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id) throws OrderNotFoundException {
+        Order order = orderService.findOrder(id);
+
+        Link link = linkTo(methodOn(OrderController.class)
+                .getBorrowOrder(order.getId()))
+                .withRel("Update_Return_or_Cancel");
+        order.add(link);
+
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @PutMapping("/orders/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) throws OrderNotFoundException {
+        Order updated = orderService.updateOrder(order, id);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @DeleteMapping("/orders/{id}")
+    public ResponseEntity<Order> deleteBookOrder(@PathVariable Long id) throws OrderNotFoundException {
+        orderService.deleteOrder(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

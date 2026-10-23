@@ -33,7 +33,7 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 	
-	// TODO - getAllAuthor (@Mappings, URI, and method)
+
     @GetMapping("/authors")
     public ResponseEntity<Object> getAllAuthors(){
         List<Author> authors = authorService.findAll();
@@ -45,7 +45,7 @@ public class AuthorController {
         return new ResponseEntity<>(authors, HttpStatus.OK);
     }
 
-	// TODO - getAuthor (@Mappings, URI, and method)
+
     @GetMapping("/authors/{id}")
     public ResponseEntity<Author> getAuthor(@PathVariable int id) throws AuthorNotFoundException{
         try{
@@ -56,7 +56,7 @@ public class AuthorController {
         }
     }
 
-	// TODO - getBooksByAuthorId (@Mappings, URI, and method)
+
     @GetMapping("/authors/{id}/books")
     public ResponseEntity<Object> getBooksByAuthorId(@PathVariable int id) throws AuthorNotFoundException {
         Set<Book> books = authorService.findBooksByAuthorId(id);
@@ -64,7 +64,7 @@ public class AuthorController {
     }
 
 
-	// TODO - createAuthor (@Mappings, URI, and method)
+
     @PostMapping("/authors")
     public ResponseEntity<Author> createAuthor(@RequestBody Author author){
         Author nauthor = authorService.saveAuthor(author);
@@ -72,7 +72,7 @@ public class AuthorController {
         return new ResponseEntity<>(nauthor, HttpStatus.CREATED);
     }
 	
-	// TODO - updateAuthor (@Mappings, URI, and method)
+
     @PutMapping("/authors/{id}")
     public ResponseEntity<Author> updateAuthor(@PathVariable int id,
                                                @RequestBody Author author) throws AuthorNotFoundException {

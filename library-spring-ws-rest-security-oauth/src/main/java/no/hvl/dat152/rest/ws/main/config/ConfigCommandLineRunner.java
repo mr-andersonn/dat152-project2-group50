@@ -161,9 +161,9 @@ class ConfigCommandLineRunner implements CommandLineRunner  {
 		System.out.println("Role = "+role1.getName());
 		
 		// orders
-		Order order1 = new Order("ghijk1234", LocalDate.now().plusWeeks(2));		
+		Order order1 = new Order("ghijk1234", LocalDate.now().plusWeeks(2));
 		user1.addOrder(order1);
-		Order order2 = new Order("qabfde1230", LocalDate.now().plusWeeks(3));		
+		Order order2 = new Order("qabfde1230", LocalDate.now().plusWeeks(3));
 		user1.addOrder(order1);
 		user1.addOrder(order2);
 		
