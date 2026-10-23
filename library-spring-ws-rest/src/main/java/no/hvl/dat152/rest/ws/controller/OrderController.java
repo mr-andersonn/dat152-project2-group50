@@ -43,8 +43,18 @@ public class OrderController {
 
 	// TODO - getAllBorrowOrders (@Mappings, URI=/orders, and method) + filter by expiry and paginate
     @GetMapping("/orders")
-    public ResponseEntity<Object> getAllBorrowOrders(){
-        List<Order> orders = orderService.findAllOrders();
+    public ResponseEntity<Object> getAllBorrowOrders(@RequestParam(value = "expiry", required = false) String expiry,
+                                                     @RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value="size", defaultValue = "10") int size){
+        List<Order> orders;
+
+        if(expiry != null){
+            LocalDate date = LocalDate.parse(expiry);
+            orders = orderService.findByExpiryDate(date, PageRequest.of(page, size));
+        }
+        else{
+            orders = orderService.findAllOrders();
+        }
 
         if(orders.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,6 +67,12 @@ public class OrderController {
     @GetMapping("/orders/{id}")
     public ResponseEntity<Order> getBorrowOrder(@PathVariable Long id) throws OrderNotFoundException {
         Order order = orderService.findOrder(id);
+
+        Link link = linkTo(methodOn(OrderController.class)
+                .getBorrowOrder(order.getId()))
+                .withRel("Update_Return_or_Cancel");
+        order.add(link);
+
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 	
